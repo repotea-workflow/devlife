@@ -1,0 +1,70 @@
+image: docker:20.10
+
+variables:
+  # When using dind service, we need to instruct docker, to talk with
+  # the daemon started inside of the service. The daemon is available
+  # with a network connection instead of the default
+  # /var/run/docker.sock socket. docker:19.03.1 does this automatically
+  # by setting the DOCKER_HOST in
+  # https://github.com/docker-library/docker/blob/d45051476babc297257df490d22cbd806f1b11e4/19.03.1/docker-entrypoint.sh#L23-L29
+  #
+  # The 'docker' hostname is the alias of the service container as described at
+  # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#accessing-the-services.
+  #
+  # Note that if you're using the Kubernetes executor, the variable
+  # should be set to tcp://localhost:2376 because of how the
+  # Kubernetes executor connects services to the job container
+  # DOCKER_HOST: tcp://localhost:2376
+  #
+  # Specify to Docker where to create the certificates, Docker will
+  # create them automatically on boot, and will create
+  # `/certs/client` that will be shared between the service and job
+  # container, thanks to volume mount from config.toml
+  DOCKER_TLS_CERTDIR: "/certs"
+
+stages:
+  - image
+
+services:
+  - docker:20.10-dind
+
+before_script:
+  - docker info
+  - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+
+.docker_build:
+  script:
+    - cd "$CI_PROJECT_DIR/$DOCKERFILE_DIR"
+    - |
+      docker build -t "$IMAGE_TAG" \
+        --build-arg KUBECTL_VERSION \
+        --build-arg KUSTOMIZE_VERSION \
+        --build-arg HELM_VERSION \
+        --build-arg HELMFILE_VERSION \
+        --build-arg YQ_VERSION \
+        .
+    - docker push "$IMAGE_TAG"
+
+#############################
+# IMAGES
+#############################
+
+kubernetes manifests:
+  extends: .docker_build
+  stage: image
+  variables:
+    DOCKERFILE_DIR: images/kubernetes-manifests
+    IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/kubernetes-manifests:$CI_COMMIT_REF_SLUG
+    KUBECTL_VERSION: "1.21"
+    KUSTOMIZE_VERSION: v4.3.0
+    HELM_VERSION: v3.6.3
+    HELMFILE_VERSION: v0.140.0
+
+# deployment trigger:
+#   extends: .docker_build
+#   stage: image
+#   variables:
+#     DOCKERFILE_DIR: images/deployment-trigger
+#     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/deployment-trigger:$CI_COMMIT_REF_SLUG
+#     KUSTOMIZE_VERSION: v4.3.0
+#     YQ_VERSION: "3.3.2"
