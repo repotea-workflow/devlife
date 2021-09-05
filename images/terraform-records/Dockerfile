@@ -1,8 +1,9 @@
-ARG TERRAFORM_VERSION
-ARG TERRAFORM_BACKEND_GIT_VERSION
 
 
 FROM debian:stretch
+ARG TERRAFORM_VERSION
+ARG TERRAFORM_BACKEND_GIT_VERSION
+
 RUN set -xe && \
   apt update && \
   apt install curl unzip -y && \
