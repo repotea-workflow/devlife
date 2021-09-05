@@ -81,6 +81,7 @@ kubernetes manifests:
     DOCKERFILE_DIR: images/kubernetes-manifests
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/kubernetes-manifests:$CI_COMMIT_REF_SLUG
     K8S_VERSION: "1.21.2"
+    HELMFILE_VERSION: v0.140.0
 
 terraform records:
   extends: .docker_build
