@@ -83,6 +83,16 @@ kubernetes manifests:
     K8S_VERSION: "1.21.2"
     HELMFILE_VERSION: v0.140.0
 
+
+deployment trigger:
+  extends: .docker_build
+  stage: image
+  variables:
+    DOCKERFILE_DIR: images/deployment-trigger
+    IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/deployment-trigger:$CI_COMMIT_REF_SLUG
+    KUSTOMIZE_VERSION: v4.3.0
+    YQ_VERSION: "3.3.2"
+
 terraform records:
   extends: .docker_build
   stage: image
