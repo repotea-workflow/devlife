@@ -26,7 +26,7 @@ RUN tar zxvf ./${HELM_FILENAME}
 ##
 # Helmfile
 ##
-FROM quay.io/roboll/helmfile:helm3-${HELMFILE_VERSION} as helmfile
+FROM quay.io/roboll/helmfile:${HELMFILE_VERSION} as helmfile
 
 ##
 # MAIN STAGE
