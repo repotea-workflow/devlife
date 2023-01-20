@@ -110,7 +110,7 @@ terraform records:
 
 node liveness probe:
   extends: .docker_build
-  state: image
+  stage: image
   variables:
     DOCKERFILE_DIR: images/node-liveness-probe
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/node-liveness-probe:$CI_COMMIT_REF_SLUG
