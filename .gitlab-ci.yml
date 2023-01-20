@@ -107,3 +107,12 @@ terraform records:
     TERRAFORM_VERSION: "1.1.9"
     TERRAFORM_BACKEND_GIT_VERSION: v0.0.17
 
+
+node liveness probe:
+  extends: .docker_build
+  state: image
+  variables:
+    DOCKERFILE_DIR: images/node-liveness-probe
+    IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/node-liveness-probe:$CI_COMMIT_REF_SLUG
+    NODE_LIVENESS_PROBE_VERSION: v0.5.4
+
