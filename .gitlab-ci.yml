@@ -121,3 +121,4 @@ ansible playbook:
   stage: image
   variables:
     DOCKERFILE_DIR: images/ansible-playbook
+    IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/ansible-playbook:$CI_COMMIT_REF_SLUG
