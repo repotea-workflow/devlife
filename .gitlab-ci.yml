@@ -116,3 +116,8 @@ node liveness probe:
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/node-liveness-probe:$CI_COMMIT_REF_SLUG
     NODE_LIVENESS_PROBE_VERSION: v0.5.4
 
+ansible playbook:
+  extends: .docker_build
+  stage: image
+  variables:
+    DOCKERFILE_DIR: images/ansible-playbook
