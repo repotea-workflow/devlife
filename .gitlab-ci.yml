@@ -94,9 +94,9 @@ deployment trigger:
   variables:
     DOCKERFILE_DIR: images/deployment-trigger
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/deployment-trigger:$CI_COMMIT_REF_SLUG
-    KUSTOMIZE_VERSION: v4.5.4
+    KUSTOMIZE_VERSION: v5.0.1
     # YQ_VERSION: "v4.25.2"
-    YQ_VERSION: "3.3.2"
+    YQ_VERSION: "v4.33.3"
 
 terraform records:
   extends: .docker_build
@@ -104,7 +104,7 @@ terraform records:
   variables:
     DOCKERFILE_DIR: images/terraform-records
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/terraform-records:$CI_COMMIT_REF_SLUG
-    TERRAFORM_VERSION: "1.4.4"
+    TERRAFORM_VERSION: "1.4.5"
     TERRAFORM_BACKEND_GIT_VERSION: v0.1.4
 
 
@@ -114,7 +114,7 @@ node liveness probe:
   variables:
     DOCKERFILE_DIR: images/node-liveness-probe
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/node-liveness-probe:$CI_COMMIT_REF_SLUG
-    NODE_LIVENESS_PROBE_VERSION: v0.5.4
+    NODE_LIVENESS_PROBE_VERSION: v0.6.1
 
 ansible playbook:
   extends: .docker_build
