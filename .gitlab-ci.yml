@@ -80,10 +80,10 @@ kubernetes manifests:
   variables:
     DOCKERFILE_DIR: images/kubernetes-manifests
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/kubernetes-manifests:$CI_COMMIT_REF_SLUG
-    KUBECTL_VERSION: "1.22"
-    KUSTOMIZE_VERSION: v4.5.4
-    HELM_VERSION: v3.8.1
-    HELMFILE_VERSION: v0.143.4
+    KUBECTL_VERSION: "1.27"
+    KUSTOMIZE_VERSION: v5.0.1
+    HELM_VERSION: v3.11.1
+    HELMFILE_VERSION: "0.152.0-3.11.3"
     # K8S_VERSION: "1.21.2"
     # HELMFILE_VERSION: v0.140.0
 
