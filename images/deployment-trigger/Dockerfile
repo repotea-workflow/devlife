@@ -15,7 +15,7 @@ RUN tar xzf ./kustomize_v*_linux_amd64.tar.gz
 FROM alpine:3
 
 RUN apk add --no-cache \
-    git openssh-client colordiff nodejs npm jq
+    bash git openssh-client colordiff nodejs npm jq
 
 COPY --from=yq ./yq_linux_amd64 /usr/local/bin/yq
 COPY --from=kustomize ./kustomize /usr/local/bin/
