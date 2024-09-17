@@ -1,8 +1,8 @@
 FROM python:3.11-slim
 
 RUN set -xe \
-    && echo 'deb http://deb.debian.org/debian buster-backports main' > /etc/apt/sources.list.d/backports.list \
-    && apt-get update && apt-get install -y --no-install-recommends \
+    && apt-get update -y \
+    && apt-get install -y --no-install-recommends \
         openssh-client \
         git \
     && rm -rf /var/lib/apt/lists/* \
