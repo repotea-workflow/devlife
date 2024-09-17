@@ -80,10 +80,10 @@ kubernetes manifests:
   variables:
     DOCKERFILE_DIR: images/kubernetes-manifests
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/kubernetes-manifests:$CI_COMMIT_REF_SLUG
-    KUBECTL_VERSION: "1.27"
-    KUSTOMIZE_VERSION: v5.0.1
-    HELM_VERSION: v3.11.1
-    HELMFILE_VERSION: "0.152.0-3.11.3"
+    KUBECTL_VERSION: "1.30.5"
+    KUSTOMIZE_VERSION: v5.4.3
+    HELM_VERSION: v3.15.3
+    HELMFILE_VERSION: "0.166.0-3.15.3"
     # K8S_VERSION: "1.21.2"
     # HELMFILE_VERSION: v0.140.0
 
@@ -94,9 +94,9 @@ deployment trigger:
   variables:
     DOCKERFILE_DIR: images/deployment-trigger
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/deployment-trigger:$CI_COMMIT_REF_SLUG
-    KUSTOMIZE_VERSION: v5.0.1
+    KUSTOMIZE_VERSION: v5.4.3
     # YQ_VERSION: "v4.25.2"
-    YQ_VERSION: "v4.33.3"
+    YQ_VERSION: "v4.44.3"
 
 terraform records:
   extends: .docker_build
@@ -104,8 +104,8 @@ terraform records:
   variables:
     DOCKERFILE_DIR: images/terraform-records
     IMAGE_TAG: $CI_REGISTRY/$CI_PROJECT_PATH/terraform-records:$CI_COMMIT_REF_SLUG
-    TERRAFORM_VERSION: "1.4.6"
-    TERRAFORM_BACKEND_GIT_VERSION: v0.1.4
+    _VERSION: "1.9.5"
+    TERRAFORM_BACKEND_GIT_VERSION: v0.1.6
 
 
 ansible playbook:
