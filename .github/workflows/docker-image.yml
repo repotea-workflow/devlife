@@ -57,7 +57,8 @@ jobs:
             build-args: |
               OMNIROUTE_REF=a1baae7b0ab178d82114ef5bf60c503d8055ce63
               OMNIROUTE_USE_TURBOPACK=0
-              OMNIROUTE_BUILD_MEMORY_MB=4096
+              OMNIROUTE_BUILD_MEMORY_MB=6144
+              OMNIROUTE_BUILD_WORKERS=2
     steps:
       - name: Skip unselected package
         id: selected
