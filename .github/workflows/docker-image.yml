@@ -51,14 +51,6 @@ jobs:
               WEBOX_REF=8ca042cd79221d05f6a74cb48064c7ba14220dc9
               WECHAT_DEB_URL=https://dldir1v6.qq.com/weixin/Universal/Linux/WeChatLinux_x86_64.deb
               WECHAT_DEB_SHA256=b7d0f8d53e9f648bc2c77a6096a04100d008f2d9f0d3988a2a4859b5992aca0a
-          - name: omniroute
-            swap: true
-            target: runner-base
-            build-args: |
-              OMNIROUTE_REF=a1baae7b0ab178d82114ef5bf60c503d8055ce63
-              OMNIROUTE_USE_TURBOPACK=0
-              OMNIROUTE_BUILD_MEMORY_MB=6144
-              OMNIROUTE_BUILD_WORKERS=2
     steps:
       - name: Skip unselected package
         id: selected
@@ -77,17 +69,6 @@ jobs:
         if: ${{ steps.selected.outputs.build == 'true' }}
       - uses: benjlevesque/short-sha@v3.0
         if: ${{ steps.selected.outputs.build == 'true' }}
-
-      - name: Expand swap
-        if: ${{ steps.selected.outputs.build == 'true' && matrix.package.swap }}
-        run: |
-          sudo swapoff -a || true
-          sudo rm -f /mnt/swapfile /swapfile
-          sudo fallocate -l 10G /mnt/swapfile || sudo dd if=/dev/zero of=/mnt/swapfile bs=1M count=10240
-          sudo chmod 600 /mnt/swapfile
-          sudo mkswap /mnt/swapfile
-          sudo swapon /mnt/swapfile
-          free -h
 
       - name: Set up Docker Buildx
         if: ${{ steps.selected.outputs.build == 'true' }}
@@ -108,7 +89,6 @@ jobs:
           push: true
           context: docker-image/${{ matrix.package.name }}
           file: docker-image/${{ matrix.package.name }}/${{ matrix.package.dockerfile || 'Dockerfile' }}
-          target: ${{ matrix.package.target }}
           tags: |
             ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/${{ matrix.package.name }}:sha-${{ env.SHA }}
             ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/${{ matrix.package.name }}:latest
