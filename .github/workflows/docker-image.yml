@@ -46,7 +46,7 @@ jobs:
             upstream: https://github.com/HKUDS/nanobot.git
             upstream-ref: 5c71b87a3ff5dca6f8467799dcb6427254fc7df3
             context: docker-image/nanobot/source
-            file: Dockerfile
+            file: docker-image/nanobot/source/Dockerfile
             build-args: |
               NANOBOT_CHANNELS=slack,discord,telegram
           - name: terraform-records
