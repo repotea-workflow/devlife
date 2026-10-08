@@ -43,7 +43,9 @@ jobs:
               # K8S_VERSION=1.21.2
               # HELMFILE_VERSION=v0.140.0
           - name: nanobot
-            context: https://github.com/HKUDS/nanobot.git#5c71b87a3ff5dca6f8467799dcb6427254fc7df3
+            upstream: https://github.com/HKUDS/nanobot.git
+            upstream-ref: 5c71b87a3ff5dca6f8467799dcb6427254fc7df3
+            context: docker-image/nanobot/source
             file: Dockerfile
             build-args: |
               NANOBOT_CHANNELS=slack,discord,telegram
@@ -86,6 +88,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ${{ env.DOCKER_REGISTRY }}
+
+      - name: Prepare nanobot source
+        if: ${{ steps.selected.outputs.build == 'true' && matrix.package.name == 'nanobot' }}
+        run: |
+          git clone "${{ matrix.package.upstream }}" docker-image/nanobot/source
+          git -C docker-image/nanobot/source checkout "${{ matrix.package.upstream-ref }}"
+          python3 docker-image/nanobot/prepare-branded-source.py docker-image/nanobot/source
 
       - name: ${{ matrix.package.name }}
         if: ${{ steps.selected.outputs.build == 'true' }}
