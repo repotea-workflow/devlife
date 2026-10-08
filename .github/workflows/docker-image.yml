@@ -42,6 +42,11 @@ jobs:
               HELMFILE_VERSION=0.166.0-3.15.3
               # K8S_VERSION=1.21.2
               # HELMFILE_VERSION=v0.140.0
+          - name: nanobot
+            context: https://github.com/HKUDS/nanobot.git#5c71b87a3ff5dca6f8467799dcb6427254fc7df3
+            file: Dockerfile
+            build-args: |
+              NANOBOT_CHANNELS=slack,discord
           - name: terraform-records
             build-args: |
               TERRAFORM_VERSION=1.9.6
@@ -87,10 +92,9 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          context: docker-image/${{ matrix.package.name }}
-          file: docker-image/${{ matrix.package.name }}/${{ matrix.package.dockerfile || 'Dockerfile' }}
+          context: ${{ matrix.package.context || format('docker-image/{0}', matrix.package.name) }}
+          file: ${{ matrix.package.file || format('docker-image/{0}/{1}', matrix.package.name, matrix.package.dockerfile || 'Dockerfile') }}
           tags: |
             ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/${{ matrix.package.name }}:sha-${{ env.SHA }}
             ${{ env.DOCKER_REGISTRY }}/${{ github.repository }}/${{ matrix.package.name }}:latest
           build-args: ${{ matrix.package.build-args }}
-
