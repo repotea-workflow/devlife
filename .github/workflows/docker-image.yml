@@ -46,7 +46,7 @@ jobs:
             context: https://github.com/HKUDS/nanobot.git#5c71b87a3ff5dca6f8467799dcb6427254fc7df3
             file: Dockerfile
             build-args: |
-              NANOBOT_CHANNELS=slack,discord
+              NANOBOT_CHANNELS=slack,discord,telegram
           - name: terraform-records
             build-args: |
               TERRAFORM_VERSION=1.9.6
