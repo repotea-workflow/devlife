@@ -26,6 +26,7 @@ jobs:
       matrix:
         package:
           - name: ansible-playbook
+          - name: itsaplan-runner
           - name: deployment-trigger
             build-args: |
               KUSTOMIZE_VERSION=v5.4.3

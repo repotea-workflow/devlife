@@ -1,0 +1,5 @@
+#!/usr/bin/python3
+import sys
+sys.path.insert(0, '/opt/itsaplan-runner/bin')
+from workspace_adapter import main
+sys.exit(main('pi', sys.argv[1:]))

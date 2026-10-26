@@ -1,0 +1,5 @@
+#!/usr/bin/python3
+"""Bridge the Runner stdin contract and route project workspaces."""
+import sys
+from workspace_adapter import main
+sys.exit(main(sys.argv[1], sys.argv[2:]))

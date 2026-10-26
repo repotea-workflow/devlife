@@ -1,0 +1,9 @@
+{
+  "name": "devlife-itsaplan-runtime",
+  "private": true,
+  "dependencies": {
+    "@itsaplan/runner": "0.5.2",
+    "@openai/codex": "0.160.0",
+    "@earendil-works/pi-coding-agent": "1.0.0"
+  }
+}

@@ -1,0 +1,7 @@
+**/__pycache__
+**/*.pyc
+node_modules
+deploy
+README.md
+*.tar.gz
+.env

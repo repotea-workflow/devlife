@@ -1,0 +1,45 @@
+name: itsaplan
+services:
+  runner:
+    image: ${ITSAPLAN_RUNNER_IMAGE:?Set a verified image digest or local image ID}
+    container_name: itsaplan-runner
+    restart: unless-stopped
+    stop_grace_period: 24h
+    working_dir: /opt/itsaplan-runner
+    environment:
+      GIT_CONFIG_GLOBAL: /root/.gitconfig
+    security_opt:
+      - no-new-privileges:true
+      - seccomp=./seccomp.json
+      - apparmor=itsaplan-runner
+      # Docker's masked proc mounts prevent bwrap from mounting proc inside its
+      # child PID namespace. AppArmor retains protection for sensitive paths.
+      - systempaths=unconfined
+    volumes:
+      - type: bind
+        source: /code
+        target: /code
+        bind:
+          create_host_path: false
+      - type: bind
+        source: /data/itsaplan
+        target: /data/itsaplan
+        bind:
+          create_host_path: false
+      # A migration copy; never bind the daily CLI home.
+      - type: bind
+        source: /data/itsaplan/runner/state
+        target: /root/.config/itsaplan-runner
+        bind:
+          create_host_path: false
+      # Existing includeIf authority retains its absolute paths, read-only.
+      - /root/.gitconfig:/root/.gitconfig:ro
+      - /root/.config/git:/root/.config/git:ro
+      - /root/.config/gh:/root/.config/gh:ro
+      - /root/.ssh:/root/.ssh:ro
+      - /root/.local/share/pragmatic:/root/.local/share/pragmatic:ro
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "3"
